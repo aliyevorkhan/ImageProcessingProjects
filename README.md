@@ -37,3 +37,6 @@ Dosyayı diske kaydet
 </li>
 </ol>
 
+contributor:
+</br>
+<a href="https://github.com/ozturkgamze">@GamzeOzturk</a>
