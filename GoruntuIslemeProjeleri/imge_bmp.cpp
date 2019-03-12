@@ -250,20 +250,19 @@ BYTE *zoom(BYTE * Buffer, unsigned int zoom_width1, unsigned int zoom_width2, un
 
 BYTE* Mask(BYTE* Buffer, int uzunluk, int yukseklik, float mask[], int maskElemanSayisi, long% yeniUzunluk, long% yeniYukseklik)
 {
-	int N = (int)(sqrt(maskElemanSayisi)); // N = matrisin kaça kaçlýk olduðu gösterir N x N
+	int N = (int)(sqrt(maskElemanSayisi)); 
 	
-	if (N*N != maskElemanSayisi) return NULL; // Mask kare matris deðilse iþlem yapma
-	if (N % 2 == 0) return NULL;			// Mask matrisi (2n+1) türünde yani tek matris deðilse (3x3,5x5,7x7 .... gibi deðilse ) iþlem yapma
+	if (N*N != maskElemanSayisi) return NULL; 
+	if (N % 2 == 0) return NULL;	
 
-	BYTE *buf = new BYTE[(uzunluk - N + 1)*(yukseklik - N + 1)]; // iþlem yaptýktan sonra ki görüntü içeriðimizi saklayacaðýmýz alan
+	BYTE *buf = new BYTE[(uzunluk - N + 1)*(yukseklik - N + 1)]; 
 
-	int xKonum = 0, yKonum = 0; // mask gezinme esnasýndaki görüntüdeki konumlarý
-
+	int xKonum = 0, yKonum = 0; 
 	yeniUzunluk = uzunluk - N + 1;
 	yeniYukseklik = yukseklik - N + 1;
 
 
-	for (int i = 0; i < (uzunluk - N + 1)*(yukseklik - N + 1); i++) // Maský görüntü üzerinde gezdirme iþlemi
+	for (int i = 0; i < (uzunluk - N + 1)*(yukseklik - N + 1); i++) 
 	{
 		float deger = 0.0;
 		for (int j = 0; j < N; j++)
