@@ -15,7 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EqualHistogram.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
     <ClCompile Include="MyForm.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Canny.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Histogram.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="imge_bmp.cpp">
@@ -29,9 +38,24 @@
     <ClInclude Include="imge_bmp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Canny.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Histogram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EqualHistogram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Canny.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Histogram.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

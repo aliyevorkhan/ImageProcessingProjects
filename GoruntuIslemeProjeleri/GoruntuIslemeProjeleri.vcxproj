@@ -134,18 +134,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EqualHistogram.cpp" />
+    <ClCompile Include="Histogram.cpp" />
     <ClCompile Include="imge_bmp.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="Canny.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EqualHistogram.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Histogram.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="imge_bmp.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Canny.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EqualHistogram.resx">
+      <DependentUpon>EqualHistogram.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Histogram.resx">
+      <DependentUpon>Histogram.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Canny.resx">
+      <DependentUpon>Canny.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,8 +2,10 @@
 #include <windows.h>
 #include <math.h>
 #include <iostream>
-
+#include <time.h>
 using namespace std;
+
+#define PI 3.14159265
 
 BYTE* LoadBMP(int% width, int% height, long% size, LPCTSTR bmpfile)
 {
@@ -157,10 +159,6 @@ BYTE* ConvertBMPToIntensity(BYTE* Buffer, int width, int height)
 	return newbuf;
 }//ConvetBMPToIntensity
 
-//\\
-//ZOOM YAPMA FONKSIYONU\\
-//\\
-
 BYTE* ConvertIntensityToBMP(BYTE* Buffer, int width, int height, long* newsize)
 {
 	// first make sure the parameters are valid
@@ -205,18 +203,18 @@ BYTE* ConvertIntensityToBMP(BYTE* Buffer, int width, int height, long* newsize)
 BYTE *zoom(BYTE * Buffer, unsigned int zoom_width1, unsigned int zoom_width2, unsigned int zoom_height1, unsigned int zoom_height2, unsigned int Width)
 {
 	int first_index = 0;
-	unsigned int k = 0;
-	unsigned int zoom_width;
-	unsigned int zoom_height;
+	int k = 0;
+	int zoom_width;
+	int zoom_height;
 	BYTE *Zoom_buffer;
 	if (zoom_height2 > zoom_height1 && zoom_width2 > zoom_width1) {
 		zoom_width = ((zoom_width2 - zoom_width1) + 1);
 		zoom_height = ((zoom_height2 - zoom_height1) + 1);
 		Zoom_buffer = new BYTE[(2 * zoom_height - 1)*(2 * zoom_width - 1)];
 
-		for (unsigned int i = zoom_height1; i < zoom_height2; i++)
+		for (int i = zoom_height1; i < zoom_height2; i++)
 		{
-			for (unsigned int j = zoom_width1; j < zoom_width2+1; j++)
+			for (int j = zoom_width1; j < zoom_width2+1; j++)
 			{
 				Zoom_buffer[k] = Buffer[(i*Width) + j];
 				k++;
@@ -250,19 +248,20 @@ BYTE *zoom(BYTE * Buffer, unsigned int zoom_width1, unsigned int zoom_width2, un
 
 BYTE* Mask(BYTE* Buffer, int uzunluk, int yukseklik, float mask[], int maskElemanSayisi, long% yeniUzunluk, long% yeniYukseklik)
 {
-	int N = (int)(sqrt(maskElemanSayisi)); 
+	int N = (int)(sqrt(maskElemanSayisi)); // N = matrisin kaça kaçlýk olduðu gösterir N x N
 	
-	if (N*N != maskElemanSayisi) return NULL; 
-	if (N % 2 == 0) return NULL;	
+	if (N*N != maskElemanSayisi) return NULL; // Mask kare matris deðilse iþlem yapma
+	if (N % 2 == 0) return NULL;			// Mask matrisi (2n+1) türünde yani tek matris deðilse (3x3,5x5,7x7 .... gibi deðilse ) iþlem yapma
 
-	BYTE *buf = new BYTE[(uzunluk - N + 1)*(yukseklik - N + 1)]; 
+	BYTE *buf = new BYTE[(uzunluk - N + 1)*(yukseklik - N + 1)]; // iþlem yaptýktan sonra ki görüntü içeriðimizi saklayacaðýmýz alan
 
-	int xKonum = 0, yKonum = 0; 
+	int xKonum = 0, yKonum = 0; // mask gezinme esnasýndaki görüntüdeki konumlarý
+
 	yeniUzunluk = uzunluk - N + 1;
 	yeniYukseklik = yukseklik - N + 1;
 
 
-	for (int i = 0; i < (uzunluk - N + 1)*(yukseklik - N + 1); i++) 
+	for (int i = 0; i < (uzunluk - N + 1)*(yukseklik - N + 1); i++) // Maský görüntü üzerinde gezdirme iþlemi
 	{
 		float deger = 0.0;
 		for (int j = 0; j < N; j++)
@@ -349,7 +348,7 @@ void cemberCiz(BYTE* Buffer, int x, int y, int r, int width, int height)
 	}
 }//cemberCiz
 
-int *Histogram(BYTE* buffer, int width, int height)
+int *histogram(BYTE* buffer, int width, int height)
 {
 	int *histogram = new int[256];
 
@@ -373,7 +372,7 @@ BYTE* HistogramEqualization(BYTE* buffer, int width, int height)
 
 	BYTE *tBuffer = new BYTE[width * height];
 
-	int *histogram = Histogram(buffer, width, height);
+	int *histogram0 = histogram(buffer, width, height);
 
 	for (int i = 0; i < 256; i++)
 		stretch[i] = 0;
@@ -381,7 +380,7 @@ BYTE* HistogramEqualization(BYTE* buffer, int width, int height)
 	float sum = 0.0;
 	for (int i = 0; i <= level; i++)
 	{
-		sum += histogram[i];
+		sum += histogram0[i];
 		stretch[i] = (int)round((sum / pixel) *level);
 	}
 
@@ -392,7 +391,7 @@ BYTE* HistogramEqualization(BYTE* buffer, int width, int height)
 
 	for (int k = 0; k < 256; k++)
 	{
-		if (histogram[k] > 0)
+		if (histogram0[k] > 0)
 		{
 			for (int pos = 0; pos < width*height; pos++)
 			{
@@ -411,4 +410,1091 @@ BYTE* HistogramEqualization(BYTE* buffer, int width, int height)
 	delete[]tBuffer;
 
 	return buffer;
+}
+
+BYTE *k_means(BYTE *Buffer, unsigned int Width, unsigned int Height)
+{
+	float t1 = 0, t2 = 255;
+	float t11 = -1, t22 = -1;
+
+	double toplam1 = 0, toplam2 = 0;
+	double bolme1 = 0, bolme2 = 0;
+
+	int *histogram0 = new int[256];
+
+
+	histogram0 = histogram(Buffer, Width, Height);
+
+	while (true)
+	{
+		for (int i = 0; i < 256; i++)
+		{
+			if (fabs(i - t1) < fabs(i - t2))
+			{
+				toplam1 += (i*histogram0[i]);
+				bolme1 += histogram0[i];
+			}
+			else
+			{
+				toplam2 += (i*histogram0[i]);
+				bolme2 += histogram0[i];
+			}
+		}
+
+		t11 = toplam1 / bolme1;
+		t22 = toplam2 / bolme2;
+
+		if (t1 == t11 && t2 == t22)
+			break;
+
+		t1 = t11;
+		t2 = t22;
+	}
+
+	BYTE *k_means_buffer = new BYTE[Width*Height];
+	k_means_buffer = Buffer;
+	for (int i = 0; i < Width * Height; i++)
+	{
+		if (fabs(k_means_buffer[i] - t11) < fabs(k_means_buffer[i] - t22))
+			k_means_buffer[i] = 0;
+		else
+			k_means_buffer[i] = 255;
+	}
+
+	return k_means_buffer;
+}
+
+BYTE *dilation(BYTE *Buffer, unsigned int Width, unsigned int Height)
+{
+	BYTE *dilation = new BYTE[Width*Height];
+	int C;
+	bool result = 0;
+
+	for (int i = 0; i < Height; i++)
+	{
+		for (int j = 0; j < Width; j++)
+		{
+			C = (i*Width + j);
+			result=(Buffer[(C - Width -1)] || Buffer[(C - Width)] || Buffer[(C - Width +1)] || Buffer[(C - 1)] || Buffer[C] || Buffer[(C + 1)] || Buffer[(C + Width - 1)] || Buffer[(C + Width)]|| Buffer[(C + Width + 1)]);
+			//result = (Buffer[(C - Width)] || Buffer[(C - 1)] || Buffer[C] || Buffer[(C + 1)] || Buffer[(C + Width)]);
+
+
+			if (result == true)
+				dilation[C] = 255;
+			else
+				dilation[C] = 0;
+
+		}
+
+	}
+
+	return dilation;
+}
+
+BYTE *erosion(BYTE *Buffer, unsigned int Width, unsigned int Height)
+{
+	BYTE *erosion = new BYTE[Width*Height];
+	int C;
+	bool result = 0;
+
+	for (int i = 0; i < Height; i++)
+	{
+		for (int j = 0; j < Width; j++)
+		{
+			C = (i*Width + j);
+			result = (Buffer[(C - Width - 1)] && Buffer[(C - Width)] && Buffer[(C - Width + 1)] && Buffer[(C - 1)] && Buffer[C] && Buffer[(C + 1)] && Buffer[(C + Width - 1)] && Buffer[(C + Width)] && Buffer[(C + Width + 1)]);
+			//result = (Buffer[(C - Width)] && Buffer[(C - 1)] && Buffer[C] && Buffer[(C + 1)] && Buffer[(C + Width)]);
+
+			if (result == true)
+				erosion[C] = 255;
+			else
+				erosion[C] = 0;
+
+		}
+
+	}
+
+	return erosion;
+}
+
+BYTE* Sinirlar(BYTE*Buffer, int uzunluk, int yukseklik, int option) {
+
+	if (option == 0) 
+	{
+		BYTE* dilation_buf = dilation(Buffer, uzunluk, yukseklik);
+		BYTE* buf = new BYTE[uzunluk*yukseklik];
+		for (int i = 0; i < uzunluk*yukseklik; i++)
+		{
+			if (Buffer[i] != dilation_buf[i])
+			{
+				buf[i] = BYTE(255);
+			}
+			else
+			{
+				buf[i] = BYTE(0);
+			}
+		}
+		return buf;
+	}
+	else if (option == 1)
+	{
+		BYTE* dilation_buf = dilation(Buffer, uzunluk, yukseklik);
+		BYTE* buf = new BYTE[uzunluk*yukseklik];
+		for (int i = 0; i < uzunluk*yukseklik; i++)
+		{
+			if (Buffer[i] != dilation_buf[i])
+			{
+				buf[i] = BYTE(0);
+			}
+			else
+			{
+				buf[i] = BYTE(255);
+			}
+		}
+		return buf;
+	}
+	else if (option == 2)
+	{
+		BYTE* erosion_buf = erosion(Buffer, uzunluk, yukseklik);
+		BYTE* buf = new BYTE[uzunluk*yukseklik];
+		for (int i = 0; i < uzunluk*yukseklik; i++)
+		{
+			if (Buffer[i] != erosion_buf[i])
+			{
+				buf[i] = BYTE(255);
+			}
+			else
+			{
+				buf[i] = BYTE(0);
+			}
+		}
+		return buf;
+	}
+	else if (option == 3)
+	{
+		BYTE* erosion_buf = erosion(Buffer, uzunluk, yukseklik);
+		BYTE* buf = new BYTE[uzunluk*yukseklik];
+		for (int i = 0; i < uzunluk*yukseklik; i++)
+		{
+			if (Buffer[i] != erosion_buf[i])
+			{
+				buf[i] = BYTE(0);
+			}
+			else
+			{
+				buf[i] = BYTE(255);
+			}
+		}
+		return buf;
+	}
+
+	
+}
+
+BYTE* Tumleme(BYTE*Buffer, int uzunluk, int yukseklik, int option) {
+	if(option == 0)
+	{
+		BYTE* buf = new BYTE[uzunluk*yukseklik];
+		for (int i = 0; i < uzunluk*yukseklik; i++)
+		{
+			buf[i] = BYTE(option + int(Buffer[i]));
+		}
+		return buf;
+	}
+	else if (option == 255) {
+		BYTE* buf = new BYTE[uzunluk*yukseklik];
+		for (int i = 0; i < uzunluk*yukseklik; i++)
+		{
+			buf[i] = BYTE(option - int(Buffer[i]));
+		}
+		return buf;
+	}
+	
+	
+}
+
+double* Tranpose(double* Matris, int satir, int sutun) {
+	double* Tmatris = new double[satir*sutun];
+	for (int i = 0; i < satir; i++)
+	{
+		for (int j = 0; j < sutun; j++)
+		{
+			Tmatris[j*satir + i] = Matris[i*sutun + j];
+		}
+	}
+	return Tmatris;
+}
+
+void draw(BYTE *Buffer, unsigned int Width, unsigned int Height, int padding, int x1, int x2, int y1, int y2, int object)
+{
+
+
+	int r, g, b;
+	y1 = Height - y1 - 1;
+	y2 = Height - y2 - 1;
+	x1 = 3 * x1;
+	x2 = 3 * x2;
+	y1 = 3 * y1;
+	y2 = 3 * y2;
+	if (object == 0) {
+		r = 0; g = 0; b = 255;
+	}
+	else if (object == 1)
+	{
+		r = 255; g = 150; b = 255;
+	}
+	else if (object == 2)
+	{
+		r = 0; g = 255; b = 0;
+	}
+	else if (object == 3)
+	{
+		r = 255; g = 0; b = 0;
+	}
+	else if (object == 4)
+	{
+		r = 255; g = 150; b = 0;
+	}
+	else if (object == 5)
+	{
+		r = 0; g = 150; b = 255;
+	}
+	else if (object == 6)
+	{
+		r = 0; g = 255; b = 100;
+	}
+
+
+
+	for (int i = x1; i <= x2; i += 3)
+	{
+		Buffer[y1*Width + (y1 / 3 * padding) + i] = b;	//BMP 'den gelen paddingleri goz ardý edemeyiz.
+		Buffer[y1*Width + (y1 / 3 * padding) + i + 1] = g;
+		Buffer[y1*Width + (y1 / 3 * padding) + i + 2] = r;
+		Buffer[y2*Width + (y2 / 3 * padding) + i] = b;
+		Buffer[y2*Width + (y2 / 3 * padding) + i + 1] = g;
+		Buffer[y2*Width + (y2 / 3 * padding) + i + 2] = r;
+	}
+
+	for (int i = y2; i <= y1; i += 3)
+	{
+		Buffer[i*Width + i / 3 * padding + x1] = b;
+		Buffer[i*Width + i / 3 * padding + x1 + 1] = g;
+		Buffer[i*Width + i / 3 * padding + x1 + 2] = r;
+		Buffer[i*Width + i / 3 * padding + x2] = b;
+		Buffer[i*Width + i / 3 * padding + x2 + 1] = g;
+		Buffer[i*Width + i / 3 * padding + x2 + 2] = r;
+	}
+
+
+}
+
+
+float oklid_Distance(float *arr1, float *arr2, int size)
+{
+	float temp = 0;
+	for (int i = 0; i < size; i++)
+	{
+		temp += pow((arr1[i] - arr2[i]), 2);
+	}
+	return sqrt(temp);
+}
+
+
+BYTE* ObjectDetect(BYTE* buffer, int width, int height, int %label)
+{
+	int etiket = 2;
+
+	int *object = new int[width*height];
+	for (int i = 0; i < height*width; i++)
+	{
+		if ((int)buffer[i] == 0)
+			object[i] = 1;
+		else
+			object[i] = 0;
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (etiket == 99)
+				etiket++;
+			if ((int)buffer[i * width + j] == 0)
+			{
+				// (0,0)
+				if (i == 0 && j == 0)
+					object[i * width + j] = etiket++;
+				// (0,j)
+				else if (i == 0)
+				{
+					if (object[i * width + j - 1] != 0)
+						object[i * width + j] = object[i * width + j - 1];
+					else
+						object[i * width + j] = etiket++;
+				}
+
+				// (i,0)
+				else if (j == 0)
+				{
+					if (object[(i - 1) * width + j] != 0)
+						object[i * width + j] = object[(i - 1) * width + j];
+					else
+						object[i * width + j] = etiket++;
+				}
+				// -----
+				else
+				{
+					if (object[(i - 1) * width + j] == 0 && object[i* width + j - 1] == 0)
+						object[i * width + j] = etiket++;
+					else if (object[(i - 1) * width + j] == object[i* width + j - 1])
+						object[i * width + j] = object[(i - 1) * width + j];
+					else if (object[(i - 1) * width + j] != 0 && object[(i - 1) * width + j] != 'c' && object[i* width + j - 1] != 0 && object[i* width + j - 1] != 'c')
+						object[i * width + j] = 'c';
+					else if (object[(i - 1) * width + j] != 0 && object[i* width + j - 1] == 0)
+						object[i * width + j] = object[(i - 1) * width + j];
+					else if (object[i* width + j - 1] != 0 && object[(i - 1) * width + j] == 0)
+						object[i * width + j] = object[i* width + j - 1];
+					else if (object[i* width + j - 1] != 0 && object[(i - 1) * width + j] == 'c')
+						object[i * width + j] = object[i* width + j - 1];
+					else if (object[(i - 1)* width + j] != 0 && object[i * width + j - 1] == 'c')
+						object[i * width + j] = object[(i - 1)* width + j];
+				}
+
+			}
+		}
+
+	}
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (object[i * width + j] == 'c')
+			{
+
+				if (object[(i - 1) * width + j] != 0 && object[(i - 1) * width + j] < object[i * width + j - 1])
+				{
+					object[i * width + j] = object[(i - 1) * width + j];
+					int a = object[(i - 1) * width + j];
+					int b = object[i * width + j - 1];
+
+					for (int i = 0; i < height*width; i++)
+					{
+						if (object[i] == b)
+							object[i] = a;
+					}
+				}
+				else if (object[i * width + j - 1] != 0 && object[i * width + j - 1] < object[(i - 1) * width + j])
+				{
+					object[i * width + j] = object[i * width + j - 1];
+					int a = object[(i - 1) * width + j];
+					int b = object[i * width + j - 1];
+					for (int i = 0; i < height*width; i++)
+					{
+						if (object[i] == a)
+							object[i] = b;
+					}
+				}
+				else
+				{
+					if (object[i * width + j - 1] != 0)
+						object[i * width + j] = object[i * width + j - 1];
+					else
+						object[i * width + j] = object[(i - 1) * width + j];
+				}
+			}
+		}
+	}
+
+	int *hist = new int[etiket];
+	for (int i = 0; i < etiket; i++)
+		hist[i] = 0;
+
+	for (int i = 0; i < width*height; i++)
+		hist[object[i]]++;
+
+	label = 0;
+	for (int i = 2; i < etiket; i++)
+		if (hist[i] != 0)
+			label++;
+
+	int cmin = 99999, cmax = -99999;
+	int rmin = 99999, rmax = -99999;
+	for (int k = 2; k < etiket; k++)
+	{
+		int cmin = 99999, cmax = -99999;
+		int rmin = 99999, rmax = -99999;
+		if (hist[k] != 0)
+		{
+			for (int i = 0; i < height; i++)
+			{
+				for (int j = 0; j < width; j++)
+				{
+					if (object[i*width + j] == k)
+					{
+						if (cmin > j)
+							cmin = j;
+						else if (cmax < j)
+							cmax = j;
+
+						if (rmin > i)
+							rmin = i;
+						else if (rmax < i)
+							rmax = i;
+					}
+
+				}
+			}
+			for (int m = rmin; m <= rmax; m++)
+			{
+				for (int n = cmin; n <= cmax; n++)
+				{
+					if (m == rmin || m == rmax)
+						buffer[m*width + n] = BYTE(150);
+					else
+					{
+						if (n == cmin || n == cmax)
+							buffer[m*width + n] = BYTE(150);
+					}
+				}
+			}
+		}
+
+	}
+	return buffer;
+}
+
+
+BYTE *canny_Andhough(BYTE *Buffer, unsigned int Width, unsigned int Height)
+{
+	BYTE *Raw_Intensity = Buffer;
+
+	int C, index = 0;	//Center
+	int result;
+	int *vertical_derivative = new int[(Width - 2)*(Height - 2)];
+	for (int i = 1; i < Height - 1; i++)
+	{
+		for (int j = 1; j < Width - 1; j++)
+		{
+			C = (i*Width + j);
+			// 1 2 1 - 0 0 0 - -1 -2 -1  maskesini gezidiriyoruz	//kenar yönü yatayda
+			result = (1 * Raw_Intensity[(C - Width - 1)] + 2 * Raw_Intensity[(C - Width)] + 1 * Raw_Intensity[(C - Width + 1)] + 0 * Raw_Intensity[(C - 1)] + 0 * Raw_Intensity[C] + 0 * Raw_Intensity[(C + 1)] + (-1)*Raw_Intensity[(C + Width - 1)] + (-2)*Raw_Intensity[(C + Width)] + (-1)*Raw_Intensity[(C + Width + 1)]);
+			vertical_derivative[index] = result;
+			index++;
+		}
+	}
+
+	index = 0;
+	int *horizontal_derivative = new int[(Width - 2)*(Height - 2)];
+	for (int i = 1; i < Height - 1; i++)
+	{
+		for (int j = 1; j < Width - 1; j++)
+		{
+			C = (i*Width + j);
+			// 1 0 -1 -  2 0 -2 -  1 0 -1  maskesini gezidiriyoruz		//kenar yönü dikeyde
+			result = (1 * Raw_Intensity[(C - Width - 1)] + 0 * Raw_Intensity[(C - Width)] + (-1) *Raw_Intensity[(C - Width + 1)] + 2 * Raw_Intensity[(C - 1)] + 0 * Raw_Intensity[C] + (-2) * Raw_Intensity[(C + 1)] + 1 * Raw_Intensity[(C + Width - 1)] + 0 * Raw_Intensity[(C + Width)] + (-1)*Raw_Intensity[(C + Width + 1)]);
+			horizontal_derivative[index] = result;
+			index++;
+		}
+	}
+
+	BYTE *deneme6 = new BYTE[(Width - 2) * (Height - 2)];
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			deneme6[C] = round(horizontal_derivative[C] / 4);
+		}
+	}
+	long new_size6;
+	BYTE *temp_buffer6 = ConvertIntensityToBMP(deneme6, Width - 2, Height - 2, &new_size6);
+	LPCTSTR output6;
+	output6 = L"C://Users//Orkhan ALIYEV//Desktop//fotograflar//FindLine//ytürev.bmp";				//BMP goruntumuzu kaydederiz
+	SaveBMP(temp_buffer6, Width - 2, Height - 2, new_size6, output6);
+
+
+	BYTE *deneme5 = new BYTE[(Width - 2) * (Height - 2)];
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			deneme5[C] = round(vertical_derivative[C] / 4);
+		}
+	}
+	long new_size5;
+	BYTE *temp_buffer5 = ConvertIntensityToBMP(deneme5, Width - 2, Height - 2, &new_size5);
+	LPCTSTR output5;
+	output5 = L"C://Users//Orkhan ALIYEV//Desktop//fotograflar//FindLine//dtürev.bmp";				//BMP goruntumuzu kaydederiz
+	SaveBMP(temp_buffer5, Width - 2, Height - 2, new_size5, output5);
+
+	int *edge_image = new int[(Width - 2)*(Height * 2)];
+	int *edge_image1 = new int[(Width - 2)*(Height * 2)];
+	int sonuc2;
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = (i*(Width - 2) + j);
+			// 2 maske sonucunu topluyoruz  not: 255den daha buyuk degeler olabýlýr max 1020 olabýlýr
+			result = abs(vertical_derivative[C]) + abs(horizontal_derivative[C]);
+			sonuc2 = vertical_derivative[C] + horizontal_derivative[C];
+			edge_image[C] = result;
+			edge_image1[C] = sonuc2;
+		}
+	}
+
+	BYTE *deneme4 = new BYTE[(Width - 2) * (Height - 2)];
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			deneme4[C] = round(edge_image1[C] / 4);
+		}
+	}
+	long new_size4;
+	BYTE *temp_buffer4 = ConvertIntensityToBMP(deneme4, Width - 2, Height - 2, &new_size4);
+	LPCTSTR output4;
+	output4 = L"C://Users//Orkhan ALIYEV//Desktop//fotograflar//FindLine//edge.bmp";				//BMP goruntumuzu kaydederiz
+	SaveBMP(temp_buffer4, Width - 2, Height - 2, new_size4, output4);
+
+
+	float Q; //Angle
+
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = (i*(Width - 2) + j);
+
+			Q = atan2(vertical_derivative[C], horizontal_derivative[C]) * 180 / PI;		//q=tan^-1((dI/dy)/(dI/dx))		gradient drection
+
+			// buldugumuz aciya gore buyukluk kýyaslamasý yapacagýz ve eger buyukse aynen kalacak degilse 0 atanacak boylece non-maximum suppresion matrisimizi elde edecegiz.
+			if ((0 <= Q && Q < 22.5) || (337.5 <= Q && Q <= 360) || (157.5 <= Q && Q < 202.5) || (0 > Q && Q > -22.5) || (-157.5 >= Q && Q > -202.5) || (-337.5 >= Q && Q >= -360))	// acý bu araliktaysa yatayda
+			{
+				if (j == 0)
+				{
+					if (edge_image[C] > edge_image[C + 1])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+				else if (j == (Width - 2) - 1)
+				{
+					if (edge_image[C] > edge_image[C - 1])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+				else
+				{
+					if (edge_image[C] > edge_image[C - 1] && edge_image[C] > edge_image[C + 1])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+
+			}
+
+			else if ((22.5 <= Q && Q < 67.5) || (202.5 <= Q && Q < 247.5) || (-112.5 >= Q && Q > -157.5) || (-292.5 >= Q && Q > -337.5))		// acý bu araliktaysa caprazda(45 derece)
+			{
+
+				if ((j == 0 && i == 0) || (i == (Height - 2 - 1) && j == (Width - 2) - 1))
+				{
+					edge_image[C] = edge_image[C];
+				}
+
+				else if ((i == 0) || (j == (Width - 2) - 1))
+				{
+					if (edge_image[C] > edge_image[C + (Width - 2) - 1])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+
+				else if ((j == 0) || (i == (Height - 2) - 1))
+				{
+					if (edge_image[C] > edge_image[(C - (Width - 2) + 1)])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+				else
+				{
+					if (edge_image[C] > edge_image[(C - (Width - 2) + 1)] && edge_image[C] > edge_image[C + (Width - 2) - 1])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+
+			}
+
+			else if ((67.5 <= Q && Q < 112.5) || (247.5 <= Q && Q < 292.5) || (-67.5 >= Q && Q > -112.5) || (-247.5 >= Q && Q > -292.5))	// acý bu aralikta ise dikeyde (90 derece)
+			{
+				if (i == 0)
+				{
+					if (edge_image[C] > edge_image[C + (Width - 2)])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+				else if (i == (Height - 2 - 1))
+				{
+					if (edge_image[C] > edge_image[(C - (Width - 2))])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+				else
+				{
+					if (edge_image[C] > edge_image[C - (Width - 2)] && edge_image[C] > edge_image[C + (Width - 2)])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+			}
+
+			else if ((112.5 <= Q && Q < 157.5) || (292.5 <= Q && Q < 337.5) || (-22.5 >= Q && Q > -67.5) || (-202.5 >= Q && Q > -247.5))	// acý bu aralikta ise caprazda (135 derece)
+			{
+				if ((j == 0 && i == (Height - 2) - 1) || (i == 0 && j == (Width - 2) - 1))
+				{
+					edge_image[C] = edge_image[C];
+				}
+
+				else if (j == 0 || i == 0)
+				{
+					if (edge_image[C] > edge_image[C + (Width - 2) + 1])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+
+				else if (i == (Height - 2 - 1) || j == (Width - 2 - 1))
+				{
+					if (edge_image[C] > edge_image[(C - (Width - 2) - 1)])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+
+				else
+				{
+					if (edge_image[C] > edge_image[(C - (Width - 2) - 1)] && edge_image[C] > edge_image[C + (Width - 2) + 1])
+						edge_image[C] = edge_image[C];
+					else
+						edge_image[C] = 0;
+				}
+
+			}
+
+		}
+	}
+
+	BYTE *deneme3 = new BYTE[(Width - 2) * (Height - 2)];
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			deneme3[C] = round(edge_image[C] / 4);
+
+		}
+	}
+	long new_size3;
+	BYTE *temp_buffer3 = ConvertIntensityToBMP(deneme3, Width - 2, Height - 2, &new_size3);
+	LPCTSTR output3;
+	output3 = L"C://Users//Orkhan ALIYEV//Desktop//fotograflar//FindLine//non-maximum-suppresion.bmp";				//BMP goruntumuzu kaydederiz
+	SaveBMP(temp_buffer3, Width - 2, Height - 2, new_size3, output3);
+
+
+	// NONMAXÝMUM SUPPRESÝON MATRÝSÝMÝZÝDE BULDUKDAON SONRA HERHANGÝ BÝR TLOW VE THÝGH DEGERÝ SECÝP BINARY GORUNTU ELDE EDICEZ
+	// BAZI SAYILAR BINARY OLMAZSA BU SEFER KENAR YONUNDE KOMSULUKLARA BAKICAZ
+
+	//Tlow degerini 20 Thigh degerini 2000 olarak belirledik ve bu sinira gore binary goruntumuzu olusturduk
+	int *nonmaximum_suppression = new int[(Width - 2)*(Height - 2)];
+	nonmaximum_suppression = edge_image;
+
+	//goruntudeki en buyuk degeri bulduk
+	int max_pixel = 0;
+	for (int i = 0; i < Height - 2; i++)
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			if (nonmaximum_suppression[C] > max_pixel)
+				max_pixel = nonmaximum_suppression[C];
+
+		}
+
+	//Tlow ve Thýgh degerlerýmý belirledik
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			if (nonmaximum_suppression[C] <= 40)
+			{
+				nonmaximum_suppression[C] = 0;
+			}
+			else if (nonmaximum_suppression[C] >= max_pixel - 50)
+			{
+				nonmaximum_suppression[C] = 1;
+			}
+
+		}
+	}
+
+
+	BYTE *deneme1 = new BYTE[(Width - 2) * (Height - 2)];
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			deneme1[C] = round(nonmaximum_suppression[C] / 4);
+
+		}
+	}
+	long new_size1;
+	BYTE *temp_buffer1 = ConvertIntensityToBMP(deneme1, Width - 2, Height - 2, &new_size1);
+	LPCTSTR output1;
+	output1 = L"C://Users//Orkhan ALIYEV//Desktop//fotograflar//FindLine//hysteric_threshold.bmp";				//BMP goruntumuzu kaydederiz
+	SaveBMP(temp_buffer1, Width - 2, Height - 2, new_size1, output1);
+
+	//Tlow ve Thigh arasýndaki degeler icin kenar dogrultusu yonunde komsuluklara bakarak asýl binary goruntumuzu elde edicez
+
+
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			if (nonmaximum_suppression[C] != 0 && nonmaximum_suppression[C] != 1)
+			{
+
+				Q = atan2(vertical_derivative[C], horizontal_derivative[C]) * 180 / PI;		//q=tan^-1((dI/dy)/(dI/dx))		gradient drection
+
+
+			   //buldugumuz acýnýn bu sefer tersine gore yani kenar dogrultusu boyunca komsularýna bakicaz eger 1 ise 1, 0 ise 0 vericez ikisi varsa 0'ý tercih edecegiz.
+				if ((0 <= Q && Q < 22.5) || (337.5 <= Q && Q <= 360) || (157.5 <= Q && Q < 202.5) || (0 > Q && Q > -22.5) || (-157.5 >= Q && Q > -202.5) || (-337.5 >= Q && Q >= -360))	// acý bu araliktaysa dikeyde kenar dogrultusunda komsuluklarýna bakýlýr
+				{
+					if (i == 0)
+					{
+						if (nonmaximum_suppression[C + (Width - 2)] == 1)
+							nonmaximum_suppression[C] = 1;
+						else if (nonmaximum_suppression[C + (Width - 2)] == 0)
+							nonmaximum_suppression[C] = 0;
+
+
+					}
+					else if (i == (Height - 2) - 1)
+					{
+						if (nonmaximum_suppression[(C - (Width - 2))] == 1)
+							nonmaximum_suppression[C] = 1;
+						else if (nonmaximum_suppression[(C - (Width - 2))] == 0)
+							nonmaximum_suppression[C] = 0;
+					}
+					else
+					{
+						if ((nonmaximum_suppression[(C - (Width - 2))] == 1 && nonmaximum_suppression[C + (Width - 2)] == 1))
+							nonmaximum_suppression[C] = 1;
+
+						else if ((nonmaximum_suppression[(C - (Width - 2))] == 0 && nonmaximum_suppression[C + (Width - 2)] == 0) || (nonmaximum_suppression[(C - (Width - 2))] == 0 && nonmaximum_suppression[C + (Width - 2)] == 1) || (nonmaximum_suppression[(C - (Width - 2))] == 1 && nonmaximum_suppression[C + (Width - 2)] == 0))
+							nonmaximum_suppression[C] = 0;
+					}
+
+				}
+
+				else if ((22.5 <= Q && Q < 67.5) || (202.5 <= Q && Q < 247.5) || (-112.5 >= Q && Q > -157.5) || (-292.5 >= Q && Q > -337.5))		// acý bu araliktaysa caprazda(135 derece) kenar dogrultusunda komsuluklara bakýlýr
+				{
+
+					if ((j == 0 && i == (Height - 2) - 1) || (i == 0 && j == (Width - 2) - 1))
+					{
+						nonmaximum_suppression[C] = 0;
+					}
+
+					else if (j == 0 || i == 0)
+					{
+						if (nonmaximum_suppression[C + (Width - 2) + 1] == 1)
+							nonmaximum_suppression[C] = 1;
+						else if (nonmaximum_suppression[C + (Width - 2) + 1] == 0)
+							nonmaximum_suppression[C] = 0;
+					}
+
+					else if (i == (Height - 2 - 1) || j == (Width - 2 - 1))
+					{
+						if (nonmaximum_suppression[C - (Width - 2) - 1] == 1)
+							nonmaximum_suppression[C] = 1;
+						else if (nonmaximum_suppression[C - (Width - 2) - 1] == 0)
+							nonmaximum_suppression[C] = 0;
+					}
+
+					else
+					{
+						if ((nonmaximum_suppression[(C - (Width - 2) - 1)] == 1 && nonmaximum_suppression[C + (Width - 2) + 1] == 1))
+							nonmaximum_suppression[C] = 1;
+
+						else if ((nonmaximum_suppression[(C - (Width - 2) - 1)] == 0 && nonmaximum_suppression[C + (Width - 2) + 1] == 0) || (nonmaximum_suppression[(C - (Width - 2) - 1)] == 0 && nonmaximum_suppression[C + (Width - 2) + 1] == 1) || (nonmaximum_suppression[(C - (Width - 2) - 1)] == 1 && nonmaximum_suppression[C + (Width - 2) + 1] == 0))
+							nonmaximum_suppression[C] = 0;
+					}
+
+				}
+
+				else if ((67.5 <= Q && Q < 112.5) || (247.5 <= Q && Q < 292.5) || (-67.5 >= Q && Q > -112.5) || (-247.5 >= Q && Q > -292.5))	// acý bu aralikta ise yatayda kenar dogrultusunda komsulklara bakýlýr (0 derece)
+				{
+
+					if (j == 0)
+					{
+						if (nonmaximum_suppression[C + 1] == 1)
+							nonmaximum_suppression[C] = 1;
+						else if (nonmaximum_suppression[C + 1] == 0)
+							nonmaximum_suppression[C] = 0;
+					}
+					else if (j == (Width - 2) - 1)
+					{
+						if (nonmaximum_suppression[C - 1] == 1)
+							nonmaximum_suppression[C] = nonmaximum_suppression[C - 1];
+						else if (nonmaximum_suppression[C - 1] == 0)
+							nonmaximum_suppression[C] = 0;
+					}
+					else
+					{
+						if ((nonmaximum_suppression[C - 1] == 1 && nonmaximum_suppression[C + 1] == 1))
+							nonmaximum_suppression[C] = 1;
+
+						else if ((nonmaximum_suppression[C - 1] == 0 && nonmaximum_suppression[C + 1] == 0) || (nonmaximum_suppression[C - 1] == 0 && nonmaximum_suppression[C + 1] == 1) || (nonmaximum_suppression[C - 1] == 1 && nonmaximum_suppression[C + 1] == 0))
+							nonmaximum_suppression[C] = 0;
+					}
+
+				}
+
+				else if ((112.5 <= Q && Q < 157.5) || (292.5 <= Q && Q < 337.5) || (-22.5 >= Q && Q > -67.5) || (-202.5 >= Q && Q > -247.5))	// acý bu aralikta ise caprazda (45 derece) kenar dogrultusunda komsuluklara bakýlýr
+				{
+
+					if ((j == 0 && i == 0) || (i == (Height - 2 - 1) && j == (Width - 2 - 1)))
+					{
+						nonmaximum_suppression[C] = 0;
+					}
+
+					else if ((i == 0) || (j == (Width - 2) - 1))
+					{
+						if (nonmaximum_suppression[C + (Width - 2) - 1] == 1)
+							nonmaximum_suppression[C] = 1;
+						else if (nonmaximum_suppression[C + (Width - 2) - 1] == 0)
+							nonmaximum_suppression[C] == 0;
+
+					}
+
+					else if ((j == 0) || (i == (Height - 2) - 1))
+					{
+						if (nonmaximum_suppression[C + (Width - 2) + 1] == 1)
+							nonmaximum_suppression[C] = 1;
+						else if (nonmaximum_suppression[C + (Width - 2) + 1] == 0)
+							nonmaximum_suppression[C] == 0;
+					}
+					else
+					{
+						if ((nonmaximum_suppression[(C - (Width - 2) + 1)] == 1 && nonmaximum_suppression[C + (Width - 2) - 1] == 1))
+							nonmaximum_suppression[C] = 1;
+
+						else if ((nonmaximum_suppression[(C - (Width - 2) + 1)] == 0 && nonmaximum_suppression[C + (Width - 2) - 1] == 0) || (nonmaximum_suppression[(C - (Width - 2) + 1)] == 0 && nonmaximum_suppression[C + (Width - 2) - 1] == 1) || (nonmaximum_suppression[(C - (Width - 2) + 1)] == 1 && nonmaximum_suppression[C + (Width - 2) - 1] == 0))
+							nonmaximum_suppression[C] = 0;
+					}
+				}
+			}
+
+			/*else
+				binary_image[M] = nonmaximum_suppression[M];*/
+		}
+	}
+
+
+	int *binary_edge_image = new int[(Width - 2)*(Height - 2)];
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			if (nonmaximum_suppression[C] == 0)
+			{
+				binary_edge_image[C] = 0;
+			}
+			/*else if (nonmaximum_suppression[M] == 1)
+			{
+				binary_edge_image[M] = 1;
+			}*/
+			else
+			{
+				binary_edge_image[C] = 1;
+			}
+		}
+	}
+
+	BYTE *deneme = new BYTE[(Width - 2) * (Height - 2)];
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			if (binary_edge_image[C] == 0)
+			{
+				deneme[C] = 0;
+			}
+			else
+			{
+				deneme[C] = 255;
+			}
+
+		}
+	}
+	long new_size;
+	BYTE *temp_buffer = ConvertIntensityToBMP(deneme, Width - 2, Height - 2, &new_size);
+	LPCTSTR output;
+	output = L"C://Users//Orkhan ALIYEV//Desktop//fotograflar//FindLine//binary.bmp";				//BMP goruntumuzu kaydederiz
+	SaveBMP(temp_buffer, Width - 2, Height - 2, new_size, output);
+
+	int d_limit = (Height * 4);
+	int *hough_transform = new int[d_limit * 360];
+
+	for (int i = 0; i < d_limit; i++)
+		for (int j = 0; j < 360; j++)
+		{
+			C = i * 360 + j;
+			hough_transform[C] = 0;
+		}
+
+	int d;
+	int M2;
+	int r, c;
+
+	for (int i = 0; i < Height - 2; i++)
+	{
+		for (int j = 0; j < Width - 2; j++)
+		{
+			C = i * (Width - 2) + j;
+			if (binary_edge_image[C] == 1)
+			{
+				Q = round(atan2(vertical_derivative[C], horizontal_derivative[C]) * 180 / PI);	//kenar yonunu bulduk
+
+				//negatif yonle gelen acýlarda aslýnda ayni yonu verdigi icin pozitife tamamladik
+				if (Q < 0)
+					Q = 360 + Q;
+
+				if (Q == 270)
+					Q = 90;
+				if (Q == 180 || Q == 360)
+					Q = 0;
+
+				r = i + 1;
+				c = j + 1;
+				d = abs(r * round(sin(Q)) + c * round(cos(Q)));
+
+				M2 = d * 360 + Q;
+				hough_transform[M2] = hough_transform[M2] + 1;
+			}
+
+
+		}
+	}
+
+	BYTE *deneme7 = new BYTE[4 * Height * 360];
+	for (int i = 0; i < Height * 4; i++)
+	{
+		for (int j = 0; j < 360; j++)
+		{
+			C = i * 360 + j;
+
+			if (hough_transform[C] > 10)
+				deneme7[C] = 255;
+			else
+			{
+				deneme7[C] = 0;
+			}
+
+		}
+	}
+	long new_size7;
+	BYTE *temp_buffer7 = ConvertIntensityToBMP(deneme7, 360, Height * 4, &new_size7);
+	LPCTSTR output7;
+	output7 = L"C://Users//Orkhan ALIYEV//Desktop//fotograflar//FindLine//hough_transform.bmp";				//BMP goruntumuzu kaydederiz
+	SaveBMP(temp_buffer7, 360, Height * 4, new_size7, output7);
+
+
+	//kenar ve yonlerýnýn tutuldugu diziler
+	int kenar_indisleri[500];
+	int acý_indisleri[500];
+	int k = 0;
+	for (int r = 0; r < d_limit; r++)
+	{
+		for (int c = 0; c < 360; c++)
+		{
+			C = r * 360 + c;
+			if (hough_transform[C] > 20)
+			{
+				kenar_indisleri[k] = r;
+				acý_indisleri[k] = c;
+				k++;
+			}
+		}
+	}
+	kenar_indisleri[k] = -1;
+
+	for (int i = 0; kenar_indisleri[i] != -1; i++)
+	for (int j = 0; kenar_indisleri[j] != -1;j++)
+	{
+		if (kenar_indisleri[j] < kenar_indisleri[j + 1])
+		{
+			int gecici = kenar_indisleri[j + 1];
+			kenar_indisleri[j + 1] = kenar_indisleri[j];
+			kenar_indisleri[j] =gecici;
+			int gecici2 = acý_indisleri[j + 1];
+			acý_indisleri[j + 1] = acý_indisleri[j];
+			acý_indisleri[j] = gecici2;
+		}
+
+	}
+
+
+
+	int padding = 0;
+	int scanlinebytes = Width * 3;
+	while ((scanlinebytes + padding) % 4 != 0)     // DWORD = 4 bytes
+		padding++;
+	// get the padded scanline width
+	int psw = scanlinebytes + padding;
+	int new_height;
+	long newpos;
+	int red = 0, green = 0, blue = 255;
+	int red1 = 255, green1 = 0, blue1 = 0;
+
+	//dongunun sinirlarý max kenar sayýsýný asmamalý
+	for (int i = 0; kenar_indisleri[i] != -1; i++)
+	{
+		if (acý_indisleri[i] == 0)
+		{
+			for (int j = 0; j < Height; j++)
+			{
+				newpos = j * psw + kenar_indisleri[i] * 3;
+				Buffer[newpos] = red;
+				Buffer[newpos + 1] = green;
+				Buffer[newpos + 2] = blue;
+			}
+
+		}
+		else if (acý_indisleri[i] == 90)
+		{
+			new_height = (Height - kenar_indisleri[i] - 1);
+
+			for (int column = 0; column < Width; column++)
+			{
+				newpos = new_height * psw + column * 3;
+				Buffer[newpos] = red1;
+				Buffer[newpos + 1] = green1;
+				Buffer[newpos + 2] = blue1;
+			}
+		}
+	}
+
+	return Buffer;
 }
