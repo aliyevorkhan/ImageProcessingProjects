@@ -105,6 +105,8 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies />
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,6 +138,7 @@
   <ItemGroup>
     <ClCompile Include="EqualHistogram.cpp" />
     <ClCompile Include="Histogram.cpp" />
+    <ClCompile Include="humoments.cpp" />
     <ClCompile Include="imge_bmp.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Canny.cpp" />
@@ -147,6 +150,7 @@
     <ClInclude Include="Histogram.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="humoments.h" />
     <ClInclude Include="imge_bmp.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>

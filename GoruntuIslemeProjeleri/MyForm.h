@@ -10,11 +10,14 @@
 
 
 using namespace std;
-//
+
 float maske[9] = { 0.25,0.50,0.25,
 				   0.50,  1 ,0.50,
 				   0.25,0.50,0.25 };
 
+//float maske[9] = { 0,1,0,
+//				   1,1,1,
+//				   0,1,0 };
 float maske1[25] = { 0.0625,	0.125,	0.25,	0.125,	0.0625,
 								0.125,	0.25,	0.5,	0.25,	0.125,
 								0.25,	0.5,	1,		0.5,	0.25,
@@ -116,6 +119,27 @@ namespace GoruntuIslemeProjeleri {
 	private: System::Windows::Forms::ToolStripMenuItem^  objectRecogToolStripMenuItem;
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::ToolStripMenuItem^  findLineToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  ımageGeometryToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  moveToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  rotateToolStripMenuItem;
+	private: System::Windows::Forms::NumericUpDown^  numericUpDown1;
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::GroupBox^  groupBox1;
+	private: System::Windows::Forms::ToolStripMenuItem^  rotateAliasToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  mirrorToolStripMenuItem;
+
+
+
+	private: System::Windows::Forms::ToolStripMenuItem^  shearingToolStripMenuItem;
+	private: System::Windows::Forms::NumericUpDown^  numericUpDown3;
+	private: System::Windows::Forms::Label^  label4;
+	private: System::Windows::Forms::Label^  label3;
+	private: System::Windows::Forms::NumericUpDown^  numericUpDown2;
+
+
+
+
+
 	private: System::ComponentModel::IContainer^  components;
 		/// <summary>
 		/// Required designer variable.
@@ -162,13 +186,30 @@ namespace GoruntuIslemeProjeleri {
 			this->ıntegrationWith255ToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->objectRecogToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->findLineToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->ımageGeometryToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->moveToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->rotateToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->rotateAliasToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->mirrorToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->shearingToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->numericUpDown2 = (gcnew System::Windows::Forms::NumericUpDown());
+			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->numericUpDown3 = (gcnew System::Windows::Forms::NumericUpDown());
+			this->label4 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
+			this->groupBox1->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// openFileDialog1
@@ -191,7 +232,7 @@ namespace GoruntuIslemeProjeleri {
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(799, 24);
+			this->menuStrip1->Size = System::Drawing::Size(1032, 24);
 			this->menuStrip1->TabIndex = 3;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -228,10 +269,11 @@ namespace GoruntuIslemeProjeleri {
 			// 
 			// processesToolStripMenuItem
 			// 
-			this->processesToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(9) {
+			this->processesToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(10) {
 				this->convertIntensityToolStripMenuItem,
 					this->drawToolStripMenuItem, this->histogramToolStripMenuItem, this->kMeansToolStripMenuItem, this->morfolgyToolStripMenuItem,
-					this->angerToolStripMenuItem, this->ıntegrationToolStripMenuItem, this->objectRecogToolStripMenuItem, this->findLineToolStripMenuItem
+					this->angerToolStripMenuItem, this->ıntegrationToolStripMenuItem, this->objectRecogToolStripMenuItem, this->findLineToolStripMenuItem,
+					this->ımageGeometryToolStripMenuItem
 			});
 			this->processesToolStripMenuItem->Name = L"processesToolStripMenuItem";
 			this->processesToolStripMenuItem->Size = System::Drawing::Size(50, 20);
@@ -433,6 +475,51 @@ namespace GoruntuIslemeProjeleri {
 			this->findLineToolStripMenuItem->Text = L"Find Line";
 			this->findLineToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::findLineToolStripMenuItem_Click);
 			// 
+			// ımageGeometryToolStripMenuItem
+			// 
+			this->ımageGeometryToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {
+				this->moveToolStripMenuItem,
+					this->rotateToolStripMenuItem, this->rotateAliasToolStripMenuItem, this->mirrorToolStripMenuItem, this->shearingToolStripMenuItem
+			});
+			this->ımageGeometryToolStripMenuItem->Name = L"ımageGeometryToolStripMenuItem";
+			this->ımageGeometryToolStripMenuItem->Size = System::Drawing::Size(184, 22);
+			this->ımageGeometryToolStripMenuItem->Text = L"Image Geometry";
+			// 
+			// moveToolStripMenuItem
+			// 
+			this->moveToolStripMenuItem->Name = L"moveToolStripMenuItem";
+			this->moveToolStripMenuItem->Size = System::Drawing::Size(136, 22);
+			this->moveToolStripMenuItem->Text = L"Move";
+			this->moveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::moveToolStripMenuItem_Click);
+			// 
+			// rotateToolStripMenuItem
+			// 
+			this->rotateToolStripMenuItem->Name = L"rotateToolStripMenuItem";
+			this->rotateToolStripMenuItem->Size = System::Drawing::Size(136, 22);
+			this->rotateToolStripMenuItem->Text = L"Rotate";
+			this->rotateToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::rotateToolStripMenuItem_Click);
+			// 
+			// rotateAliasToolStripMenuItem
+			// 
+			this->rotateAliasToolStripMenuItem->Name = L"rotateAliasToolStripMenuItem";
+			this->rotateAliasToolStripMenuItem->Size = System::Drawing::Size(136, 22);
+			this->rotateAliasToolStripMenuItem->Text = L"Rotate Alias";
+			this->rotateAliasToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::rotateAliasToolStripMenuItem_Click);
+			// 
+			// mirrorToolStripMenuItem
+			// 
+			this->mirrorToolStripMenuItem->Name = L"mirrorToolStripMenuItem";
+			this->mirrorToolStripMenuItem->Size = System::Drawing::Size(136, 22);
+			this->mirrorToolStripMenuItem->Text = L"Mirror";
+			this->mirrorToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::mirrorToolStripMenuItem_Click);
+			// 
+			// shearingToolStripMenuItem
+			// 
+			this->shearingToolStripMenuItem->Name = L"shearingToolStripMenuItem";
+			this->shearingToolStripMenuItem->Size = System::Drawing::Size(136, 22);
+			this->shearingToolStripMenuItem->Text = L"Shearing";
+			this->shearingToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::shearingToolStripMenuItem_Click);
+			// 
 			// pictureBox3
 			// 
 			this->pictureBox3->Location = System::Drawing::Point(402, 27);
@@ -461,11 +548,89 @@ namespace GoruntuIslemeProjeleri {
 			this->label2->Text = L"label2";
 			this->label2->Visible = false;
 			// 
+			// numericUpDown1
+			// 
+			this->numericUpDown1->Location = System::Drawing::Point(124, 22);
+			this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 360, 0, 0, 0 });
+			this->numericUpDown1->Name = L"numericUpDown1";
+			this->numericUpDown1->Size = System::Drawing::Size(41, 20);
+			this->numericUpDown1->TabIndex = 21;
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label1->Location = System::Drawing::Point(2, 16);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(116, 34);
+			this->label1->TabIndex = 22;
+			this->label1->Text = L"Please enter the \r\nangle for rotation";
+			// 
+			// groupBox1
+			// 
+			this->groupBox1->Controls->Add(this->numericUpDown2);
+			this->groupBox1->Controls->Add(this->label3);
+			this->groupBox1->Controls->Add(this->numericUpDown3);
+			this->groupBox1->Controls->Add(this->label4);
+			this->groupBox1->Controls->Add(this->label1);
+			this->groupBox1->Controls->Add(this->numericUpDown1);
+			this->groupBox1->Location = System::Drawing::Point(849, 27);
+			this->groupBox1->Name = L"groupBox1";
+			this->groupBox1->Size = System::Drawing::Size(171, 294);
+			this->groupBox1->TabIndex = 23;
+			this->groupBox1->TabStop = false;
+			// 
+			// numericUpDown2
+			// 
+			this->numericUpDown2->Location = System::Drawing::Point(124, 212);
+			this->numericUpDown2->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 3, 0, 0, 0 });
+			this->numericUpDown2->Name = L"numericUpDown2";
+			this->numericUpDown2->Size = System::Drawing::Size(41, 20);
+			this->numericUpDown2->TabIndex = 29;
+			this->numericUpDown2->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label3->Location = System::Drawing::Point(2, 122);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(116, 153);
+			this->label3->TabIndex = 28;
+			this->label3->Text = L"Please enter the \r\ndirection for \r\nshearing\r\n(direction\r\n     x=>0\r\n    -x=>1    "
+				L" \r\n     y=>2\r\n    -y=>3\r\n)";
+			// 
+			// numericUpDown3
+			// 
+			this->numericUpDown3->DecimalPlaces = 1;
+			this->numericUpDown3->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
+			this->numericUpDown3->Location = System::Drawing::Point(124, 78);
+			this->numericUpDown3->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 15, 0, 0, 65536 });
+			this->numericUpDown3->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
+			this->numericUpDown3->Name = L"numericUpDown3";
+			this->numericUpDown3->Size = System::Drawing::Size(41, 20);
+			this->numericUpDown3->TabIndex = 26;
+			this->numericUpDown3->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label4->Location = System::Drawing::Point(2, 62);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(116, 51);
+			this->label4->TabIndex = 25;
+			this->label4->Text = L"Please enter the \r\ncoefficients for \r\nshearing";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(799, 551);
+			this->ClientSize = System::Drawing::Size(1032, 551);
+			this->Controls->Add(this->groupBox1);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->pictureBox2);
 			this->Controls->Add(this->pictureBox3);
@@ -480,6 +645,11 @@ namespace GoruntuIslemeProjeleri {
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
+			this->groupBox1->ResumeLayout(false);
+			this->groupBox1->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -979,11 +1149,105 @@ private: System::Void objectRecogToolStripMenuItem_Click(System::Object^  sender
 		}
 }
 private: System::Void findLineToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-	canny_Andhough(Raw_Intensity, Width, Height);
 	
+
+	canny_Andhough(Raw_Intensity, Width, Height);
+
 	Canny^ form = gcnew Canny;
 	form->findLine();
 	form->Show();
 }
+private: System::Void moveToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
+	BYTE *MovedBuff = new BYTE[Width * Height];
+	MovedBuff = MoveImage(Raw_Intensity, Width, Height);
+
+	int row, column;
+	Bitmap ^ surface = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
+	pictureBox2->Image = surface;
+	Color c;
+	this->pictureBox2->Location = System::Drawing::Point(pictureBox1->Left + pictureBox1->Width + 10, 27);
+	for (row = 0; row < Height; row++)
+		for (column = 0; column < Width; column++)
+		{
+			c = Color::FromArgb(MovedBuff[row * Width + column], MovedBuff[row * Width + column], MovedBuff[row * Width + column]);
+			surface->SetPixel(column, row, c); // x ve y korinatlar� 3. parametre ise rengi
+		}
+}
+private: System::Void rotateToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
+	int angle= (int) numericUpDown1->Value;
+
+	BYTE *RotateBuff = new BYTE[Width * Height];
+	RotateBuff = RotateImage(Raw_Intensity, Width, Height, angle);
+
+	int row, column;
+	Bitmap ^ surface = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
+	pictureBox2->Image = surface;
+	Color c;
+	this->pictureBox2->Location = System::Drawing::Point(pictureBox1->Left + pictureBox1->Width + 10, 27);
+	for (row = 0; row < Height; row++)
+		for (column = 0; column < Width; column++)
+		{
+			c = Color::FromArgb(RotateBuff[row * Width + column], RotateBuff[row * Width + column], RotateBuff[row * Width + column]);
+			surface->SetPixel(column, row, c); // x ve y korinatlar� 3. parametre ise rengi
+		}
+}
+private: System::Void rotateAliasToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
+	int angle = (int)numericUpDown1->Value;
+
+	BYTE *RotateBuff = new BYTE[Width * Height];
+	RotateBuff = RotateImageAlias(Raw_Intensity, Width, Height, angle);
+
+	int row, column;
+	Bitmap ^ surface = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
+	pictureBox2->Image = surface;
+	Color c;
+	this->pictureBox2->Location = System::Drawing::Point(pictureBox1->Left + pictureBox1->Width + 10, 27);
+	for (row = 0; row < Height; row++)
+		for (column = 0; column < Width; column++)
+		{
+			c = Color::FromArgb(RotateBuff[row * Width + column], RotateBuff[row * Width + column], RotateBuff[row * Width + column]);
+			surface->SetPixel(column, row, c); // x ve y korinatlar� 3. parametre ise rengi
+		}
+}
+private: System::Void mirrorToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	int angle = (int)numericUpDown1->Value;
+
+	BYTE *testBuff = new BYTE[Width * Height];
+	testBuff = MirrorImage(Raw_Intensity, Width, Height, angle);
+
+	int row, column;
+	Bitmap ^ surface = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
+	pictureBox2->Image = surface;
+	Color c;
+	this->pictureBox2->Location = System::Drawing::Point(pictureBox1->Left + pictureBox1->Width + 10, 27);
+	for (row = 0; row < Height; row++)
+		for (column = 0; column < Width; column++)
+		{
+			c = Color::FromArgb(testBuff[row * Width + column], testBuff[row * Width + column], testBuff[row * Width + column]);
+			surface->SetPixel(column, row, c); // x ve y korinatlar� 3. parametre ise rengi
+		}
+}
+private: System::Void shearingToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	double coefficients = (double)numericUpDown3->Value;
+	int direction = (int)numericUpDown2->Value;
+	BYTE *testBuff = new BYTE[Width * Height];
+	testBuff = Shearing(Raw_Intensity, Width, Height, coefficients, direction);
+
+	int row, column;
+	Bitmap ^ surface = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
+	pictureBox2->Image = surface;
+	Color c;
+	this->pictureBox2->Location = System::Drawing::Point(pictureBox1->Left + pictureBox1->Width + 10, 27);
+	for (row = 0; row < Height; row++)
+		for (column = 0; column < Width; column++)
+		{
+			c = Color::FromArgb(testBuff[row * Width + column], testBuff[row * Width + column], testBuff[row * Width + column]);
+			surface->SetPixel(column, row, c); // x ve y korinatlar� 3. parametre ise rengi
+		}
+}
+
 };
 }

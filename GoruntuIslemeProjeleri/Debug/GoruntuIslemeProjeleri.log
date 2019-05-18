@@ -1,0 +1,74 @@
+﻿  imge_bmp.cpp
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(216): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(218): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(226): warning C4244: '=': conversion from 'double' to 'BYTE', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(234): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(239): warning C4244: '=': conversion from 'double' to 'BYTE', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(359): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(445): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(446): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(457): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(474): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(476): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(500): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(502): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(801): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(803): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(816): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(818): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(829): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(831): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(834): warning C4244: '=': conversion from 'double' to 'BYTE', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(845): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(847): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(850): warning C4244: '=': conversion from 'double' to 'BYTE', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(866): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(868): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(880): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(882): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(885): warning C4244: '=': conversion from 'double' to 'BYTE', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(897): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(899): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(903): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1027): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1029): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1032): warning C4244: '=': conversion from 'double' to 'BYTE', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1052): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1053): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1062): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1064): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1081): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1083): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1086): warning C4244: '=': conversion from 'double' to 'BYTE', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1099): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1101): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1107): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1216): warning C4553: '==': result of expression not used; did you intend '='?
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1225): warning C4553: '==': result of expression not used; did you intend '='?
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1245): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1247): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1266): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1268): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1302): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1304): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1309): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1322): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1324): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1333): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1407): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1420): warning C4018: '<': signed/unsigned mismatch
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1473): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1474): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1497): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1501): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1503): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1531): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1532): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1557): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1561): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1566): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(1570): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(591): warning C4715: 'Sinirlar': not all control paths return a value
+c:\users\orkhan aliyev\desktop\projeler\goruntuislemeprojeleri_\goruntuislemeprojeleri\imge_bmp.cpp(613): warning C4715: 'Tumleme': not all control paths return a value
+  EqualHistogram.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  GoruntuIslemeProjeleri.vcxproj -> C:\Users\Orkhan ALIYEV\Desktop\Projeler\GoruntuIslemeProjeleri_\Debug\GoruntuIslemeProjeleri.exe

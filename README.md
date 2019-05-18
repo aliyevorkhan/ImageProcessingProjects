@@ -1,65 +1,58 @@
-<h1>Görüntü işleme kütüphanesi</h1>
 
-	Hazırlayan: Orkhan ALIYEV
+Yapilan islemler sirasi ile:
+1.	Maske gezdirme
+2.	B�y�tme islemi (Zoom in)
+3.	Histogram �ikarma
+4.	Histogram esitleme
+5.	Clustering(K-Means)
+6.	Morfoloji islemleri
+a.	Dilation
+b.	Erosion
+7.	Nesne algilama
+8.	G�r�nt� Geometrisi
+a.	G�r�nt�y� tasima
+b.	G�r�nt�y� d�nd�rme
+c.	G�r�nt�y� d�nd�rme(Alias ile)
+d.	G�r�nt�y� aynalama
 
-Yapılan işlemler sırası ile:<br>
-<ol>
-<li>Maske gezdirme</li>
-<li>Büyütme işlemi (Zoom in)</li>
-<li>Histogram çıkarma</li>
-<li>Histogram eşitleme</li>
-<li>Clustering(K-Means)</li>
-<li>Morfoloji işlemleri</li>
-<ul>
-<li>Dilation</li>
-<li>Erosion</li>
-</ul>
-<li>Nesne algılama</li>
-<li>Görüntü Geometrisi</li>
-<ul>
-<li>Görüntüyü taşıma</li>
-<li>Görüntüyü döndürme</li>
-<li>Görüntüyü döndürme(Alias ile)</li>
-<li>Görüntüyü aynalama</li>
-</ul>
-</ol>
-<h2 align="center">Maske gezdirme</h2>
-Gezdireceğimiz maskeyi görüntünün üzerine koyduğumuzda kenarlardan taşma olacak bu yüzden görüntünün kenarlarını sıfırlarla dolduruyoruz. Birinci iterasyonda maskenin merkezini görüntünün ilk pikseline koyuyoruz, görüntünün ilk pikselinin yeni değerini maskenin elemanlarını görüntüde üstünde durduğu piksellerle çarpıp topluyoruz ve görüntünün o pikselini bu toplam değeri ile setliyoruz. Devamında bir sağa kaydırıp aynı işlemi tekrarlıyoruz.
-           <h2 align="center">Büyütme işlemi (Zoom in)</h2>
-Görüntü üzerinde belirli bir kısmı kesip, çıkartıp onu büyütme işlemini gerçekleştirmek şu şekilde gerçekleşir. Örneğin fare ile fotoğrafın içerisinde herhangi bir noktadan başladık, sol alta doğru kırptık ve fareyi çektik. Başlangıç konumunu x0, y0 olarak bitiş konumunu x1, y1 olarak ele aldık bir döngü ile bu kısmı kesip çıkardık fakat yeni fotoğrafımız henüz büyütülmemiş. Büyütme için yeni fotoğrafın piksellerinin aralarını sıfırlar ile dolduruyoruz. Sonuçta yeni fotoğrafımız gürültülü gibi gözüküyor, bunun sebebi araları sıfırlar ile doldurmamız. Fotoğrafımız büyük fakat gürültülü bunu yok etmek için maske gezdiriyoruz. Gaussian maskesi ile maske gezdirme fonksiyonundaki adımları izlersek gürültüyü yok etmiş oluruz ve sonuca ulaşırız.
-			        <h2 align="center">Histogram çıkarma</h2>
-Fotoğrafta 0 ila 255 arasındaki piksel değerlerinin sayısını bir chart üzerinde gösterebilmek için bir döngü içerisinde fotoğrafın her pikseline erişiriz ve o piksel değerine sahip olan kaç tane piksel var ise bu sayıyı chart üzerinde setleriz.
-				<h2 align="center">Histogram eşitleme</h2>
-Çıkarmış olduğumuz histogram üzerinden histogram eşitleme yapmak için ilk olarak running sum hesaplanır, running sum’ın son değeri bizim toplam piksel değerimiz oluyor değerimiz oluyor. Her değeri bu toplam piksel değerimize böleceğiz. Daha sonra her değeri maksimum gri seviye değeri (örn. 255) ile çarpıyoruz. Ve elde ettiğimiz değerler bizim eşitlenmiş histogram değerlerimiz oluyor. Sonuçları eşitlenmiş histogram olarak chart üzerinde işliyoruz.
-				<h2 align="center">Clustering(K-Means)</h2>
-Görüntü üzerinde clustering işlemi yapmak için ilk olarak görüntünün histogramını çıkarmalıyız daha sonra bu histogram üzerine 2 eşik değerini(örn. T1 ve T2) rastgele setlemeliyiz. Daha sonra ise bir döngü içerisinde bu eşik değerlerinin yeni değerlerini bulabilmek için her eşik değeri için ona yakın olan pikseller ile değerlerini çarpıp toparız ve toplam piksel değerine böleriz. Bunu yaparken her iterasyonda bir önceki eşik değerleri ile yeni bulduğumuz eşik değerleri eşit mi diye kontrol ederiz ve sonuç sağlanana kadar iterasyon tekrarlanır. En sonda ise eşitlik sağlandığında o eşik değerlerinin komşularına karar veririz ve binary değerler ile görüntüyü binary görüntüye dönüştürürüz.
-				  	<h2 align="center">Dilation</h2>
-Dilation işlemini yaparken fotoğrafın binary halini kullanıyoruz. Görüntüdeki 1’ler üzerinden ilerliyoruz ve genişletme için OR’lama işlemi yapıyoruz. Bu işlem sonucunda genişletilmiş görüntüyü elde ederiz. 
-					<h2 align="center">Erosion</h2>
-Dilation işlemi gibi bu işlemi de binary görüntü üzerinde yaparız. Fakat tek fark OR’lama işlemi yerine AND’leme işlemi yapmamız. Bu işlem sonucunda eroziyona uğramış görüntüyü elde ederiz.
-				<h2 align="center"> Nesne algılama</h2>
+Maske gezdirme
+Gezdirecegimiz maskeyi g�r�nt�n�n �zerine koydugumuzda kenarlardan tasma olacak bu y�zden g�r�nt�n�n kenarlarini sifirlarla dolduruyoruz. Birinci iterasyonda maskenin merkezini g�r�nt�n�n ilk pikseline koyuyoruz, g�r�nt�n�n ilk pikselinin yeni degerini maskenin elemanlarini g�r�nt�de �st�nde durdugu piksellerle �arpip topluyoruz ve g�r�nt�n�n o pikselini bu toplam degeri ile setliyoruz. Devaminda bir saga kaydirip ayni islemi tekrarliyoruz.
+           B�y�tme islemi (Zoom in)
+G�r�nt� �zerinde belirli bir kismi kesip, �ikartip onu b�y�tme islemini ger�eklestirmek su sekilde ger�eklesir. �rnegin fare ile fotografin i�erisinde herhangi bir noktadan basladik, sol alta dogru kirptik ve fareyi �ektik. Baslangi� konumunu x0, y0 olarak bitis konumunu x1, y1 olarak ele aldik bir d�ng� ile bu kismi kesip �ikardik fakat yeni fotografimiz hen�z b�y�t�lmemis. B�y�tme i�in yeni fotografin piksellerinin aralarini sifirlar ile dolduruyoruz. Sonu�ta yeni fotografimiz g�r�lt�l� gibi g�z�k�yor, bunun sebebi aralari sifirlar ile doldurmamiz. Fotografimiz b�y�k fakat g�r�lt�l� bunu yok etmek i�in maske gezdiriyoruz. Gaussian maskesi ile maske gezdirme fonksiyonundaki adimlari izlersek g�r�lt�y� yok etmis oluruz ve sonuca ulasiriz.
+			        Histogram �ikarma
+Fotografta 0 ila 255 arasindaki piksel degerlerinin sayisini bir chart �zerinde g�sterebilmek i�in bir d�ng� i�erisinde fotografin her pikseline erisiriz ve o piksel degerine sahip olan ka� tane piksel var ise bu sayiyi chart �zerinde setleriz.
+				Histogram esitleme
+�ikarmis oldugumuz histogram �zerinden histogram esitleme yapmak i�in ilk olarak running sum hesaplanir, running sum�in son degeri bizim toplam piksel degerimiz oluyor degerimiz oluyor. Her degeri bu toplam piksel degerimize b�lecegiz. Daha sonra her degeri maksimum gri seviye degeri (�rn. 255) ile �arpiyoruz. Ve elde ettigimiz degerler bizim esitlenmis histogram degerlerimiz oluyor. Sonu�lari esitlenmis histogram olarak chart �zerinde isliyoruz.
+
+				Clustering(K-Means)
+G�r�nt� �zerinde clustering islemi yapmak i�in ilk olarak g�r�nt�n�n histogramini �ikarmaliyiz daha sonra bu histogram �zerine 2 esik degerini(�rn. T1 ve T2) rastgele setlemeliyiz. Daha sonra ise bir d�ng� i�erisinde bu esik degerlerinin yeni degerlerini bulabilmek i�in her esik degeri i�in ona yakin olan pikseller ile degerlerini �arpip topariz ve toplam piksel degerine b�leriz. Bunu yaparken her iterasyonda bir �nceki esik degerleri ile yeni buldugumuz esik degerleri esit mi diye kontrol ederiz ve sonu� saglanana kadar iterasyon tekrarlanir. En sonda ise esitlik saglandiginda o esik degerlerinin komsularina karar veririz ve binary degerler ile g�r�nt�y� binary g�r�nt�ye d�n�st�r�r�z.
+				  	Dilation
+Dilation islemini yaparken fotografin binary halini kullaniyoruz. G�r�nt�deki 1�ler �zerinden ilerliyoruz ve genisletme i�in OR�lama islemi yapiyoruz. Bu islem sonucunda genisletilmis g�r�nt�y� elde ederiz. 
+					Erosion
+Dilation islemi gibi bu islemi de binary g�r�nt� �zerinde yapariz. Fakat tek fark OR�lama islemi yerine AND�leme islemi yapmamiz. Bu islem sonucunda eroziyona ugramis g�r�nt�y� elde ederiz.
+				 Nesne algilama
  
-Görüntü üzerinde 4’lü veya 8’li şekilde geziyoruz, komşuların etiket değerlerini kontrol ediyoruz, eğer etiket almamışsa yeni etiket değerini veriyoruz veya komşularında etiket alan varsa onun değerine setliyoruz. Fakat komşularında 2 veya daha fazla etiket almış komşu olabilir bu duruma ”collision” diyoruz ve bu durumda çözüm olarak komşularını ve kendisini en küçük etiketli değere setliyoruz. Bu şekilde döngü sonuna kadar ilerliyoruz. Kaç etiketimiz var ise o kadar da nesne olduğu anlamına gelir. Ve bu etiket sayısını nesne sayısı olarak ekranda gösteririz.
-			      <h2 align="center">Görüntüyü taşıma</h2>
-Taşıma operatörü, giriş resmindeki her pikseli, çıkış resmindeki yeni bir konuma taşıma işlemidir. Orjinal resimdeki (x1,y1) koordinatındaki her piksel belli bir öteleme mesafesi (βx, βy) boyunca taşınarak yeni konumu olan (x2,y2) koordinatına yerleştirilir
+G�r�nt� �zerinde 4�l� veya 8�li sekilde geziyoruz, komsularin etiket degerlerini kontrol ediyoruz, eger etiket almamissa yeni etiket degerini veriyoruz veya komsularinda etiket alan varsa onun degerine setliyoruz. Fakat komsularinda 2 veya daha fazla etiket almis komsu olabilir bu duruma �collision� diyoruz ve bu durumda ��z�m olarak komsularini ve kendisini en k���k etiketli degere setliyoruz. Bu sekilde d�ng� sonuna kadar ilerliyoruz. Ka� etiketimiz var ise o kadar da nesne oldugu anlamina gelir. Ve bu etiket sayisini nesne sayisi olarak ekranda g�steririz.
+			      G�r�nt�y� tasima
+Tasima operat�r�, giris resmindeki her pikseli, �ikis resmindeki yeni bir konuma tasima islemidir. Orjinal resimdeki (x1,y1) koordinatindaki her piksel belli bir �teleme mesafesi (�x, �y) boyunca tasinarak yeni konumu olan (x2,y2) koordinatina yerlestirilir
  
-Yukarıdaki formülden yaralanırız.
-Yeni oluşan koordinatlar (x2,y2) resmin sınırları dışına çıktıysa ya yok sayılır veya sınırlar genişletilerek, ilgili alan doldurulur.  
-         <h2 align="center"> Görüntüyü döndürme</h2>
-Döndürme işlemi bir nokta etrafında belli bir açı (θ) değerinde çevirerek giriş resmindeki (x1,y1) koordinatını çıkış resmindeki (x2,y2) noktasına taşıma işlemidir. Döndürme işleminde sınırların dışına çıkan kısımlar yok sayıyoruz. 
+Yukaridaki form�lden yaralaniriz.
+Yeni olusan koordinatlar (x2,y2) resmin sinirlari disina �iktiysa ya yok sayilir veya sinirlar genisletilerek, ilgili alan doldurulur.  
+          G�r�nt�y� d�nd�rme
+D�nd�rme islemi bir nokta etrafinda belli bir a�i (?) degerinde �evirerek giris resmindeki (x1,y1) koordinatini �ikis resmindeki (x2,y2) noktasina tasima islemidir. D�nd�rme isleminde sinirlarin disina �ikan kisimlar yok sayiyoruz. 
  
-Yukarıdaki formülden yararlanarak döndürme işlemini gerçekleştiririz. Gürültüsüz görüntü elde edemeyiz bunu elde etmek için alias ile döndürmeye ihtiyaç duyarız.
-		       <h2 align="center">Görüntüyü döndürme(Alias ile)</h2>
-Yukarıdaki işlemlerin aynısını uygularız fakat Alias’sız işlemde bazı piksellerden geçilmiyordu(vektör bazında baktığımızda) ve bu yüzden piksellerin değerleri belirsiz kalıyordu Alias ile döndürmede bu sorun çözülüyor. Piksellerden geçilmese de komşularının değerlerine yakın değerler alınırsa bu sorun çözülür.
-Not: Bunu kaydırma işlemleri ile de yapabiliriz. Fakat iyi çözüm olmaz.
-			                       <h2 align="center"> Aynalama</h2>
-Görüntüyü  orijinal (x1, y1) konumundan alarak, belirlenen eksen etrafında yansıtarak yeni bir konuma (x2, y2)yerleştiririz. (x0,y0) noktası resmin tam orta noktasıdır.
-•	x0 noktasından geçen dikey eksen etrafında yansıtma;
+Yukaridaki form�lden yararlanarak d�nd�rme islemini ger�eklestiririz. G�r�lt�s�z g�r�nt� elde edemeyiz bunu elde etmek i�in alias ile d�nd�rmeye ihtiya� duyariz.
+		       G�r�nt�y� d�nd�rme(Alias ile)
+Yukaridaki islemlerin aynisini uygulariz fakat Alias�siz islemde bazi piksellerden ge�ilmiyordu(vekt�r bazinda baktigimizda) ve bu y�zden piksellerin degerleri belirsiz kaliyordu Alias ile d�nd�rmede bu sorun ��z�l�yor. Piksellerden ge�ilmese de komsularinin degerlerine yakin degerler alinirsa bu sorun ��z�l�r.
+Not: Bunu kaydirma islemleri ile de yapabiliriz. Fakat iyi ��z�m olmaz.
+			                        Aynalama
+G�r�nt�y�  orijinal (x1, y1) konumundan alarak, belirlenen eksen etrafinda yansitarak yeni bir konuma (x2, y2)yerlestiririz. (x0,y0) noktasi resmin tam orta noktasidir.
+�	x0 noktasindan ge�en dikey eksen etrafinda yansitma;
  
-•	y0 noktasından geçen yatay eksen etrafında yansıtma,
+�	y0 noktasindan ge�en yatay eksen etrafinda yansitma,
     
 
 
-•	(x0,y0) noktasından geçen herhangi bir θ açısına sahip bir eksen etrafında yansıtma.
+�	(x0,y0) noktasindan ge�en herhangi bir ? a�isina sahip bir eksen etrafinda yansitma.
  
  

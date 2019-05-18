@@ -15,20 +15,23 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EqualHistogram.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="MyForm.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Canny.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Histogram.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imge_bmp.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Histogram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EqualHistogram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Canny.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="humoments.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +50,9 @@
     <ClInclude Include="EqualHistogram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="humoments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
@@ -56,6 +62,9 @@
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="Histogram.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EqualHistogram.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

@@ -114,7 +114,7 @@ namespace GoruntuIslemeProjeleri {
 			// 
 			// pictureBox4
 			// 
-			this->pictureBox4->Location = System::Drawing::Point(12, 308);
+			this->pictureBox4->Location = System::Drawing::Point(796, 308);
 			this->pictureBox4->Name = L"pictureBox4";
 			this->pictureBox4->Size = System::Drawing::Size(384, 256);
 			this->pictureBox4->TabIndex = 3;
@@ -130,7 +130,7 @@ namespace GoruntuIslemeProjeleri {
 			// 
 			// pictureBox6
 			// 
-			this->pictureBox6->Location = System::Drawing::Point(792, 308);
+			this->pictureBox6->Location = System::Drawing::Point(12, 308);
 			this->pictureBox6->Name = L"pictureBox6";
 			this->pictureBox6->Size = System::Drawing::Size(384, 256);
 			this->pictureBox6->TabIndex = 5;

@@ -14,8 +14,16 @@ BYTE* k_means(BYTE *Buffer, unsigned int Width, unsigned int Height);
 BYTE* dilation(BYTE *Buffer, unsigned int Width, unsigned int Height);
 BYTE* erosion(BYTE *Buffer, unsigned int Width, unsigned int Height);
 BYTE* Sinirlar(BYTE*Buffer, int uzunluk, int yukseklik, int option);
-//void draw(BYTE *Buffer, unsigned int Width, unsigned int Height, int padding, int x1, int x2, int y1, int y2, int renk);
 float oklid_Distance(float *arr1, float *arr2, int size);
 BYTE* Tumleme(BYTE*Buffer, int uzunluk, int yukseklik, int option);
 BYTE *canny_Andhough(BYTE *Buffer, unsigned int Width, unsigned int Height);
+void draw(BYTE *Buffer, unsigned int Width, unsigned int Height, int padding, int x1, int x2, int y1, int y2, int renk);
 BYTE* ObjectDetect(BYTE* buffer, int width, int height, int %label);
+BYTE *object_recognition(BYTE *Buffer, unsigned int Width, unsigned int Height);
+BYTE* MoveImage(BYTE* buffer, int width, int height);
+BYTE* RotateImage(BYTE* buffer, int width, int height,int angle);
+BYTE* RotateImageAlias(BYTE* buffer, int width, int height, int angle);
+BYTE* MirrorImage(BYTE* buffer, int width, int height, int angle);
+BYTE* Shearing(BYTE* buffer, int width, int height, double coefficients, int direction);
+
+
